@@ -1,0 +1,14 @@
+{
+  "name": "exercise-journal",
+  "version": "1.0.0",
+  "description": "An quick app to store workouts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chul Ahn",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
