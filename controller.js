@@ -21,9 +21,25 @@ angular.module('app', [])
         newExercise.name = $scope.exerciseName;
         newExercise.weight = $scope.exerciseWeight || 0;
         newExercise.rep = $scope.exerciseRep || 0;
-        newExercise.time = new Date($scope.exerciseTime) || new Date();
+        if ($scope.exerciseTime != null ? newExercise.time = new Date($scope.exerciseTime) : newExercise.time = new Date() )
+        // newExercise.time = new Date($scope.exerciseTime) || new Date();
         console.log(newExercise)
         $scope.exercises.push(newExercise);
+
+        var postRequest = {
+            method: "POST",
+            url: "/ex",
+            data: newExercise
+        };
+
+        $http(postRequest).then(function successCallback(response) {
+            console.log("Success");
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log("Fail");
+            console.log(response);
+        })
+
     }
     $scope.logData = function() {
         console.log($scope.exercises);
