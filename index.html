@@ -11,7 +11,10 @@
   <title>Exercise Logger</title>
 
   <script>
-    String.prototype.toDate = function(dateString) {
+    String.prototype.toDate = function() {
+      return new Date(this);
+    }
+    Date.prototype.toDate = function() {
       return new Date(this);
     }
   </script>
@@ -35,7 +38,7 @@
         <td>{{ex.name}}</td>
         <td>{{ex.weight}}</td>
         <td>{{ex.rep}}</td>
-        <td>{{ex.time.toDate().toGMTString()}}</td>
+        <td>{{ex.time.toDate().toLocaleString()}}</td>
       </tr>
     </table>
   </section>
