@@ -10,6 +10,12 @@
 
   <title>Exercise Logger</title>
 
+  <script>
+    String.prototype.toDate = function(dateString) {
+      return new Date(this);
+    }
+  </script>
+
 </head>
 <body ng-app="app" ng-controller="dataController">
   <header>
@@ -29,7 +35,7 @@
         <td>{{ex.name}}</td>
         <td>{{ex.weight}}</td>
         <td>{{ex.rep}}</td>
-        <td>{{ex.time.toGMTString()}}</td>
+        <td>{{ex.time.toDate().toGMTString()}}</td>
       </tr>
     </table>
   </section>
