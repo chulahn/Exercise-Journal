@@ -3,8 +3,14 @@ angular.module('app', [])
 
 .controller('dataController', ['$scope' , '$http' , function($scope, $http) {
 
+    console.log("here")
     $http.get("/ex")
         .success(function(data) {
+            console.log("Successful connect")
+            console.log(data);
+        })
+        .error(function(data) {
+            console.log("Non successful");
             console.log(data);
         })
 

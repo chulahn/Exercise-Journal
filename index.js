@@ -41,6 +41,7 @@ app.get("/ex", function(req, res){
             workoutCollection.find({}).toArray(function(err, results) {
                 if (results) {
                     console.log(results);
+                    res.send(results)
                 }
             });
         }
