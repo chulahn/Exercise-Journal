@@ -3,17 +3,6 @@ angular.module('app', [])
 
 .controller('dataController', ['$scope' , '$http' , function($scope, $http) {
 
-    console.log("here")
-    $http.get("/ex")
-        .success(function(data) {
-            console.log("Successful connect")
-            console.log(data);
-        })
-        .error(function(data) {
-            console.log("Non successful");
-            console.log(data);
-        })
-
     $scope.workout = [];
     $scope.exercises = [
         {name: "Press", weight: 135, rep: 5, time: new Date('4/28/16 18:16') },
@@ -21,6 +10,19 @@ angular.module('app', [])
         {name: "Squat", weight: 135, rep: 5, time: new Date('4/28/16 18:19') }
 
     ];
+
+    console.log("here")
+    $http.get("/ex")
+        .success(function(data) {
+            console.log("Successful connect")
+            console.log(data);
+            $scope.exercises = data;
+            
+        })
+        .error(function(data) {
+            console.log("Non successful");
+            console.log(data);
+        })
 
     $scope.addExercise = function() {
         var newExercise = {};
