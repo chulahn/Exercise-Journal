@@ -58,5 +58,10 @@ angular.module('app', [])
         console.log($.parseJSON(text));
     }
 
+    $scope.sortDateTime = function(exercise) {
+        var dateTime = new Date(exercise.time);
+        return dateTime;
+    }
+
 
 }]);

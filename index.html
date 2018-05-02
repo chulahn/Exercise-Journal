@@ -34,7 +34,7 @@
         <th>Rep</th>
         <th>Date</th>
       </tr>
-      <tr ng-repeat="ex in exercises">
+      <tr ng-repeat="ex in exercises | orderBy: sortDateTime : false ">
         <td>{{ex.name}}</td>
         <td>{{ex.weight}}</td>
         <td>{{ex.rep}}</td>
