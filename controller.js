@@ -63,6 +63,7 @@ angular.module('app', [])
         // newExercise.time = new Date($scope.exerciseTime) || new Date();
         console.log(newExercise)
         $scope.exercises.push(newExercise);
+        $scope.convertData($scope.exercises);
 
         var postRequest = {
             method: "POST",
