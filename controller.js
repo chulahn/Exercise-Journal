@@ -17,12 +17,42 @@ angular.module('app', [])
             console.log("Successful connect")
             console.log(data);
             $scope.exercises = data;
-            
+            $scope.convertData(data);
         })
         .error(function(data) {
             console.log("Non successful");
             console.log(data);
         })
+
+    $scope.convertData = function(data) {
+
+        var convertedData = {};
+
+        //for each exercise
+        //get the date
+        //if Date already exists, push
+        //else create new Date
+        for (var i=0; i<data.length; i++) {
+            var currentEx = data[i];
+            var currentExDate = new Date(currentEx.time);
+            console.log(currentExDate.toLocaleDateString());
+
+            if (convertedData[currentExDate.toLocaleDateString()] === undefined ? 
+                convertedData[currentExDate.toLocaleDateString()] = [currentEx] :
+                convertedData[currentExDate.toLocaleDateString()].push(currentEx)); 
+
+
+            // if (convertedData[currentExDate.toLocaleDateString()] == undefined) {
+            //     convertedData[currentExDate.toLocaleDateString()] = [currentEx];
+            // }
+            // else {
+            //     convertedData[currentExDate.toLocaleDateString()].push(currentEx); 
+            // }
+
+            console.log(convertedData);
+            $scope.convertedData = convertedData;
+        }
+    }
 
     $scope.addExercise = function() {
         var newExercise = {};
