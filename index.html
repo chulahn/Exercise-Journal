@@ -55,12 +55,13 @@
   </section>
 
   <section>
-    <table>
-      <td><input type="text" placeholder="Exercise" ng-model="exerciseName" id="exerciseName"></input></td>
-      <td><input type="number" placeholder="Weight" ng-model="exerciseWeight" id="exerciseWeight"></input></td>
-      <td><input type="number" placeholder="Rep" ng-model="exerciseRep" id="exerciseRep"></input></td>
-      <td><input placeholder="Date Time (XX/XX/XX HH:MM)" ng-model="exerciseTime" id="exerciseTime"></input></td>
-      
+    <table class="table table-condensed input-table">
+      <tr>
+        <td><input type="text" placeholder="Exercise" ng-model="exerciseName" id="exerciseName"></input></td>
+        <td><input type="number" placeholder="Weight" ng-model="exerciseWeight" id="exerciseWeight"></input></td>
+        <td><input type="number" placeholder="Rep" ng-model="exerciseRep" id="exerciseRep"></input></td>
+        <td><input placeholder="Date (XX/XX/XX HH:MM)" ng-model="exerciseTime" id="exerciseTime"></input></td>
+      </tr>
     </table>
     <button class="btn btn-primary" id="addWorkout" ng-click="addExercise()">Add Exercise</button>
     <button class="btn btn-danger" id="clearWorkouts">Clear Workouts</button>

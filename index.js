@@ -19,6 +19,10 @@ app.get("/", function(req, res) {
 	res.sendfile("index.html");
 });
 
+app.get("/style.css", function(req, res) {
+	res.sendfile("style.css");
+});
+
 app.get("/controller.js", function(req, res) {
 	res.sendfile("controller.js");
 });
