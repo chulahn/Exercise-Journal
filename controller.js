@@ -13,6 +13,8 @@ angular.module('app', [])
     ];
     $scope.mapped = [];
 
+    $scope.editMode = false;
+
     $http.get("/ex")
         .success(function(data) {
             console.log("Successful connect")
@@ -109,6 +111,10 @@ angular.module('app', [])
     $scope.sortDateTime = function(exercise) {
         var dateTime = new Date(exercise.time);
         return dateTime;
+    }
+
+    $scope.toggleEdit = function() {
+        $scope.editMode = !$scope.editMode;
     }
 
 

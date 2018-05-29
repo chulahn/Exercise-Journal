@@ -6,3 +6,12 @@ header {
 .input-table input {
   width: 100%;
 }
+
+#editButton {
+  background-color: green;
+  color: white;
+}
+
+.edit-nav {
+  background-color: green;
+}
