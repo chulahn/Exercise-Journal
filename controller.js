@@ -3,15 +3,16 @@ angular.module('app', [])
 
 .controller('dataController', ['$scope' , '$http' , function($scope, $http) {
 
-    $scope.workout = [];
     $scope.exercises = [
         {name: "Press", weight: 135, rep: 5, time: new Date('4/28/16 18:16') },
         {name: "Bench", weight: 135, rep: 5, time: new Date('4/28/16 18:17') },
-        {name: "Squat", weight: 135, rep: 5, time: new Date('4/28/16 18:19') }
+        {name: "Squat", weight: 135, rep: 5, time: new Date('4/28/16 18:19') },
+        {name: "Squat", weight: 135, rep: 5, time: new Date('4/8/16 18:19') },
+        {name: "Squat", weight: 135, rep: 5, time: new Date('4/18/16 18:19') }
 
     ];
+    $scope.mapped = [];
 
-    console.log("here")
     $http.get("/ex")
         .success(function(data) {
             console.log("Successful connect")
@@ -35,23 +36,39 @@ angular.module('app', [])
         for (var i=0; i<data.length; i++) {
             var currentEx = data[i];
             var currentExDate = new Date(currentEx.time);
-            console.log(currentExDate.toLocaleDateString());
 
-            if (convertedData[currentExDate.toLocaleDateString()] === undefined ? 
-                convertedData[currentExDate.toLocaleDateString()] = [currentEx] :
-                convertedData[currentExDate.toLocaleDateString()].push(currentEx)); 
+            //eg. currentEx.date = "5/2/2018"
+            currentEx.date = currentExDate.toLocaleDateString();
 
+            // if (convertedData[currentExDate.toLocaleDateString()] === undefined ? 
+            //     convertedData[currentExDate.toLocaleDateString()] = [currentEx] :
+            //     convertedData[currentExDate.toLocaleDateString()].push(currentEx)); 
 
-            // if (convertedData[currentExDate.toLocaleDateString()] == undefined) {
-            //     convertedData[currentExDate.toLocaleDateString()] = [currentEx];
-            // }
-            // else {
-            //     convertedData[currentExDate.toLocaleDateString()].push(currentEx); 
-            // }
+            //if key does not exist, make a key with value objData.
+            //objData has date and an array of exercise with the one exercise
+            if (convertedData[currentExDate.toLocaleDateString()] === undefined) {
+                var objData = {};
+                objData.date = currentExDate;
+                objData.exercises = [];
+                objData.exercises.push(currentEx);
 
-            console.log(convertedData);
-            $scope.convertedData = convertedData;
+                convertedData[currentExDate.toLocaleDateString()] = objData;
+            }
+
+            //else add the exercise to the value exercises array.
+            else {
+                // console.log(convertedData[currentExDate.toLocaleDateString()])
+                convertedData[currentExDate.toLocaleDateString()].exercises.push(currentEx);
+            }
         }
+
+        $scope.convertedData = convertedData;
+
+        $scope.mapped = Object.keys($scope.convertedData).map(function(key){
+            return $scope.convertedData[key]
+        })
+
+        console.log($scope.mapped);
     }
 
     $scope.addExercise = function() {

@@ -34,13 +34,24 @@
         <th>Rep</th>
         <th>Date</th>
       </tr>
+      <tbody ng-repeat="key in mapped  | orderBy: 'date' ">
+        <tr>
+          <th>{{key.date|date}}</th>
+        </tr>  
+        <tr ng-repeat="ex in key.exercises">
+          <td>{{ex.name}}</td>
+          <td>{{ex.weight}}</td>
+          <td>{{ex.rep}}</td>
+          <td>{{ex.time.toDate().toLocaleString()}}</td>
+        </tr>
+      </tbody> 
       <!-- <tr ng-repeat="ex in exercises | orderBy: sortDateTime : true ">
         <td>{{ex.name}}</td>
         <td>{{ex.weight}}</td>
         <td>{{ex.rep}}</td>
         <td>{{ex.time.toDate().toLocaleString()}}</td>
       </tr>  -->
-      <tbody ng-repeat="(key,value) in convertedData">
+      <!-- <tbody ng-repeat="(key,value) in convertedData | groupBy: date">
         <tr>
           <th>{{key}}</th>
         </tr>
@@ -50,7 +61,7 @@
           <td>{{va.rep}}</td>
           <td>{{va.time.toDate().toLocaleString()}}</td>
         </tr>
-      </tbody>
+      </tbody> -->
     </table>
   </section>
 
