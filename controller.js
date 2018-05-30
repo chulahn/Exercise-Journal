@@ -117,5 +117,19 @@ angular.module('app', [])
         $scope.editMode = !$scope.editMode;
     }
 
+    $scope.fillExerciseInfo = function(ex) {
+        if ($scope.editMode) {
+            console.log(ex);
+
+            $scope.exerciseName = ex.name;
+            $scope.exerciseWeight = ex.weight;
+            $scope.exerciseRep = ex.rep;
+            $scope.exerciseTime = ex.time;
+        }
+        else {
+            console.log("Not in edit mode");
+        }
+        
+    }
 
 }]);

@@ -1,6 +1,7 @@
 header {
   background-color: yellow;
   text-align: center;
+  padding-top: 60px;
 }
 
 .input-table input {
@@ -28,4 +29,8 @@ footer {
   position: fixed;
   bottom: 0;
   background: yellow;
+}
+
+footer table {
+  margin-bottom: 10px !important;
 }
