@@ -90,13 +90,14 @@ angular.module('app', [])
             data: newExercise
         };
 
-        $http(postRequest).then(function successCallback(response) {
-            console.log("Success");
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log("Fail");
-            console.log(response);
+        $http(postRequest).success(function(data) {
+            console.log("Success add");
+            console.log(data);
         })
+        .error(function(data) {
+            console.log("Error");
+            console.log(data);
+        });
 
     }
     $scope.logData = function() {
@@ -152,13 +153,14 @@ angular.module('app', [])
             url: "/ex/" + $scope.exerciseId,
             data: editedExericise
         };
-        $http(postRequest).then(function successCallback(response) {
-            console.log("Successful Edit");
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log("Failed Edit");
-            console.log(response);
+        $http(postRequest).success(function(data) {
+            console.log("Success");
+            console.log(data);
         })
+        .error(function(data) {
+            console.log("Error");
+            console.log(data);
+        });
     }
 
 }]);

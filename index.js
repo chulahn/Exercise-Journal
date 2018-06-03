@@ -74,11 +74,13 @@ app.post("/ex", function(req,res) {
                 if (err) {
                     console.log("Insert workout error");
                     console.log(err);
+                    res.status(400).send(err);
+
                 }
                 else {
                     console.log("Successful insert");
                     console.log(results);
-                    return results;
+                    res.send(req.body);
                 }
             })
         }
@@ -108,10 +110,12 @@ app.post("/ex/:exId", function(req,res) {
                 if (err) {
                     console.log("Edit Search workout error");
                     console.log(err);
+                    res.status(400).send(err);
                 }
                 else {
                     console.log("Successful edit search");
                     console.log(results);
+                    res.send(copy);
                 }
             })
         }
