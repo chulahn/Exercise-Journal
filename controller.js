@@ -115,21 +115,50 @@ angular.module('app', [])
 
     $scope.toggleEdit = function() {
         $scope.editMode = !$scope.editMode;
+
+        if (!$scope.editMode) {
+            $(".selected").removeClass("selected");
+        }
     }
 
-    $scope.fillExerciseInfo = function(ex) {
+    $scope.fillExerciseInfo = function(ex, $event) {
+        
         if ($scope.editMode) {
-            console.log(ex);
-
+            $(".selected").removeClass("selected");
+            $($event.currentTarget).addClass("selected");
+        
             $scope.exerciseName = ex.name;
             $scope.exerciseWeight = ex.weight;
             $scope.exerciseRep = ex.rep;
             $scope.exerciseTime = ex.time;
+
+            //fill hidden input
+            $scope.exerciseId = ex._id;   
         }
         else {
             console.log("Not in edit mode");
         }
-        
+    }
+
+    $scope.editExercise = function() {
+        var editedExericise = {};
+        editedExericise.name = $scope.exerciseName;
+        editedExericise.weight = $scope.exerciseWeight;
+        editedExericise.rep = $scope.exerciseRep;
+        editedExericise.time = $scope.exerciseTime;
+
+        var postRequest = {
+            method: "POST",
+            url: "/ex/" + $scope.exerciseId,
+            data: editedExericise
+        };
+        $http(postRequest).then(function successCallback(response) {
+            console.log("Successful Edit");
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log("Failed Edit");
+            console.log(response);
+        })
     }
 
 }]);

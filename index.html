@@ -66,7 +66,7 @@
         <tr>
           <th>{{key.date|date}}</th>
         </tr>  
-        <tr ng-repeat="ex in key.exercises" exId={{ex._id}} ng-click="fillExerciseInfo(ex)">
+        <tr ng-repeat="ex in key.exercises" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
           <td>{{ex.name}}</td>
           <td>{{ex.weight}}</td>
           <td>{{ex.rep}}</td>
@@ -100,6 +100,7 @@
         <td><input type="number" placeholder="Weight" ng-model="exerciseWeight" id="exerciseWeight"></input></td>
         <td><input type="number" placeholder="Rep" ng-model="exerciseRep" id="exerciseRep"></input></td>
         <td><input placeholder="Date (XX/XX/XX HH:MM)" ng-model="exerciseTime" id="exerciseTime"></input></td>
+        <td><input ng-model="exerciseId" id="exerciseId"></td>
       </tr>
     </table>
     <button class="btn btn-primary" id="addWorkout" ng-click="addExercise()">Add Exercise</button>

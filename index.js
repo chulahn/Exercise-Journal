@@ -4,6 +4,8 @@ var app = express();
 var mongo = require("mongodb");
 var MongoClient = mongo.MongoClient;
 var databaseURL = "mongodb://admin:Fitadmin@ds121696.mlab.com:21696/exercise-journal"
+var ObjectId = require('mongodb').ObjectId; 
+
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -76,6 +78,7 @@ app.post("/ex", function(req,res) {
                 else {
                     console.log("Successful insert");
                     console.log(results);
+                    return results;
                 }
             })
         }
@@ -86,6 +89,41 @@ app.post("/ex", function(req,res) {
         }
     });
 });
+
+app.post("/ex/:exId", function(req,res) {
+    MongoClient.connect(databaseURL, function(err, client) {
+
+        if (client) {
+            console.log("---POST:Connected to client");
+            
+            var db = client.db('exercise-journal');
+            var workoutCollection = db.collection("workouts");
+            
+            var copy = req.body;
+            copy.TEST = "TESTING"
+            delete copy._id;
+            var o_id = new ObjectId(req.params.exId);
+
+            workoutCollection.update({_id:o_id}, { $set : copy }, function(err,results) {
+                if (err) {
+                    console.log("Edit Search workout error");
+                    console.log(err);
+                }
+                else {
+                    console.log("Successful edit search");
+                    console.log(results);
+                }
+            })
+        }
+
+        else {
+            console.log("Error connecting to Database");
+            console.log(err);
+        }
+    });
+});
+
+
 
 
 app.listen(process.env.PORT || 3000);

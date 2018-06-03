@@ -13,7 +13,7 @@ header {
   color: white;
 }
 
-.edit-nav {
+.edit-nav, .selected {
   background-color: green;
 }
 
@@ -29,8 +29,13 @@ footer {
   position: fixed;
   bottom: 0;
   background: yellow;
+  width: 100%;
 }
 
 footer table {
   margin-bottom: 10px !important;
+}
+
+input#exerciseId {
+  display: none;
 }
