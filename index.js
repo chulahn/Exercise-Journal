@@ -92,7 +92,7 @@ app.post("/ex", function(req,res) {
     });
 });
 
-app.post("/ex/:exId", function(req,res) {
+app.post("/update/:exId", function(req,res) {
     MongoClient.connect(databaseURL, function(err, client) {
 
         if (client) {
@@ -116,6 +116,38 @@ app.post("/ex/:exId", function(req,res) {
                     console.log("Successful edit search");
                     console.log(results);
                     res.send(copy);
+                }
+            })
+        }
+
+        else {
+            console.log("Error connecting to Database");
+            console.log(err);
+        }
+    });
+});
+
+app.post("/delete/:exId", function(req,res) {
+    MongoClient.connect(databaseURL, function(err, client) {
+
+        if (client) {
+            console.log("---POST:Connected to client");
+            
+            var db = client.db('exercise-journal');
+            var workoutCollection = db.collection("workouts");
+            
+            var o_id = new ObjectId(req.params.exId);
+
+            workoutCollection.deleteOne({_id:o_id}, function(err,results) {
+                if (err) {
+                    console.log("Edit Search workout error");
+                    console.log(err);
+                    res.status(400).send(err);
+                }
+                else {
+                    console.log("Successful edit search");
+                    console.log(results);
+                    res.send(results);
                 }
             })
         }

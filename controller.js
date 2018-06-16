@@ -94,6 +94,16 @@ angular.module('app', [])
         $http(postRequest).success(function(data) {
             console.log("Success add");
             console.log(data);
+            $http.get("/ex")
+                .success(function(data) {
+                    $scope.exercises = data;
+                    $scope.convertData(data);
+                })
+                .error(function(data) {
+                    console.log("Non successful:add reload");
+                    console.log(data);
+                })
+
         })
         .error(function(data) {
             console.log("Error");
@@ -186,21 +196,39 @@ angular.module('app', [])
         $scope.exerciseId = null; 
     }
 
+    function composeExercise() {
+        var exercise = {};
+        exercise.name = $scope.exerciseName;
+        exercise.weight = $scope.exerciseWeight;
+        exercise.rep = $scope.exerciseRep;
+        exercise.time = $scope.exerciseTime;
+
+        return exercise;
+
+    }
+
     $scope.editExercise = function() {
-        var editedExericise = {};
-        editedExericise.name = $scope.exerciseName;
-        editedExericise.weight = $scope.exerciseWeight;
-        editedExericise.rep = $scope.exerciseRep;
-        editedExericise.time = $scope.exerciseTime;
+        var editedExericise = composeExercise();
 
         var postRequest = {
             method: "POST",
-            url: "/ex/" + $scope.exerciseId,
+            url: "/update/" + $scope.exerciseId,
             data: editedExericise
         };
         $http(postRequest).success(function(data) {
             console.log("Success");
             console.log(data);
+
+            //reload
+            $http.get("/ex")
+                .success(function(data) {
+                    $scope.exercises = data;
+                    $scope.convertData(data);
+                })
+                .error(function(data) {
+                    console.log("Non successful:edit reload");
+                    console.log(data);
+                })
         })
         .error(function(data) {
             console.log("Error");
@@ -208,4 +236,35 @@ angular.module('app', [])
         });
     }
 
+
+    $scope.deleteExercise = function() {
+        var exerciseToDelete = composeExercise();
+
+        var postRequest = {
+            method: "POST",
+            url: "/delete/" + $scope.exerciseId,
+            data: exerciseToDelete
+        };
+        $http(postRequest).success(function(data) {
+            console.log("Success");
+            console.log(data);
+
+            //reload
+            $http.get("/ex")
+                .success(function(data) {
+                    $scope.exercises = data;
+                    $scope.convertData(data);
+                })
+                .error(function(data) {
+                    console.log("Non successful:edit reload");
+                    console.log(data);
+                })
+        })
+        .error(function(data) {
+            console.log("Error");
+            console.log(data);
+        });
+    }
+
+    
 }]);
