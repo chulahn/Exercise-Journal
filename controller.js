@@ -14,6 +14,7 @@ angular.module('app', [])
     $scope.mapped = [];
 
     $scope.editMode = false;
+    $scope.deleteMode = false;
 
     $http.get("/ex")
         .success(function(data) {
@@ -120,14 +121,48 @@ angular.module('app', [])
         if (!$scope.editMode) {
             $(".selected").removeClass("selected");
         }
+
+        if ($scope.deleteMode) {
+            $scope.deleteMode = false;
+            $(".delete-selected").removeClass("delete-selected");
+            clearExerciseInputs();
+
+        }
+    }
+
+    $scope.toggleDelete = function() {
+        $scope.deleteMode = !$scope.deleteMode;
+
+        //when delete clicked again, remove selected red
+        if (!$scope.deleteMode) {
+            $(".delete-selected").removeClass("delete-selected");
+
+        }
+
+        //if switching from edit, remove selected green and clear
+        if ($scope.editMode) {
+            $scope.editMode = false;
+            $(".edit-selected").removeClass("edit-selected");
+            clearExerciseInputs();
+
+        }
+
     }
 
     $scope.fillExerciseInfo = function(ex, $event) {
         
         if ($scope.editMode) {
-            $(".selected").removeClass("selected");
-            $($event.currentTarget).addClass("selected");
-        
+            $(".edit-selected").removeClass("edit-selected");
+            $($event.currentTarget).addClass("edit-selected");
+        }
+
+        else if ($scope.deleteMode) {
+            $(".delete-selected").removeClass("delete-selected")
+            $($event.currentTarget).addClass("delete-selected");
+        }
+
+
+        if ($scope.editMode || $scope.deleteMode) {
             $scope.exerciseName = ex.name;
             $scope.exerciseWeight = ex.weight;
             $scope.exerciseRep = ex.rep;
@@ -139,6 +174,16 @@ angular.module('app', [])
         else {
             console.log("Not in edit mode");
         }
+    }
+
+    function clearExerciseInputs() {
+        $scope.exerciseName = null;
+        $scope.exerciseWeight = null;
+        $scope.exerciseRep = null;
+        $scope.exerciseTime = null;
+
+        //fill hidden input
+        $scope.exerciseId = null; 
     }
 
     $scope.editExercise = function() {

@@ -21,7 +21,7 @@
 
 </head>
 <body ng-app="app" ng-controller="dataController">
-  <nav class="navbar navbar-inverse navbar-fixed-top" ng-class="editMode ? 'edit-nav' : ''">
+  <nav class="navbar navbar-inverse navbar-fixed-top" ng-class="(editMode ? 'edit-nav' : '') + ' ' + (deleteMode ? 'delete-nav' : '') ">
     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -32,14 +32,17 @@
         <button type="button" id="editButton" ng-click="toggleEdit()" class="navbar-toggle">
           Edit 
         </button>
+        <button type="button" id="deleteButton" ng-click="toggleDelete()" class="navbar-toggle">
+          Delete 
+        </button>
         <a class="navbar-brand" href="#">Exercise Logger</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Home</a></li>
           <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li> 
           <li><a id="editLi" ng-click="toggleEdit()">Edit</a></li> 
+          <li><a id="deleteLi" ng-click="toggleDelete()">Delete</a></li> 
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

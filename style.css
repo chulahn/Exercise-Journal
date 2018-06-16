@@ -19,8 +19,12 @@ header {
   }
 }
 
-.edit-nav, .selected {
+.edit-nav, .edit-selected {
   background-color: green;
+}
+
+.delete-nav, .delete-selected {
+  background-color: red;
 }
 
 .navbar-inverse {
