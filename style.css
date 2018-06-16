@@ -13,6 +13,12 @@ header {
   color: white;
 }
 
+@media only screen and (max-width: 768px) {
+  #editLi {
+    display: none;
+  }
+}
+
 .edit-nav, .selected {
   background-color: green;
 }
