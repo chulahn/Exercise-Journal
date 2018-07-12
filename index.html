@@ -67,7 +67,7 @@
       </tr>
       <tbody ng-repeat="key in mapped  | orderBy: 'date' ">
         <tr>
-          <th ng-init="$last ? key.collapsed = false : key.collapsed = true" ng-click="key.collapsed = !key.collapsed">
+          <th class="date-header" ng-init="$last ? key.collapsed = false : key.collapsed = true" ng-click="key.collapsed = !key.collapsed">
             <span class="expand-collapse-button"> {{key.collapsed ? '&nbsp;-&nbsp;' : '&nbsp;+&nbsp;' }}</span>
             &nbsp;
             {{key.date|date}}
