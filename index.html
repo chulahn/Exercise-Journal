@@ -60,9 +60,9 @@
   <section class="workout">
     <table class="table table-condensed exerciseList">
       <tr>
-        <th class="col-xs-4 col-md-3">Exercise</th>
+        <th class="col-xs-5 col-md-3">Exercise</th>
         <th class="col-xs-2">Weight</th>
-        <th class="col-xs-2">Rep</th>
+        <th class="col-xs-1">Rep</th>
         <th class="col-xs-4">Date</th>
       </tr>
       <tbody ng-repeat="key in mapped  | orderBy: 'date' ">
@@ -103,10 +103,10 @@
   <footer>
     <table class="table table-condensed input-table">
       <tr>
-        <td><input type="text" placeholder="Exercise" ng-model="exerciseName" id="exerciseName"></input></td>
-        <td><input type="number" placeholder="Weight" ng-model="exerciseWeight" id="exerciseWeight"></input></td>
-        <td><input type="number" placeholder="Rep" ng-model="exerciseRep" id="exerciseRep"></input></td>
-        <td><input placeholder="Date (XX/XX/XX HH:MM)" ng-model="exerciseTime" id="exerciseTime"></input></td>
+        <td class="col-xs-5 col-md-3"><input type="text" placeholder="Exercise" ng-model="exerciseName" id="exerciseName"></input></td>
+        <td class="col-xs-2"><input type="number" placeholder="Weight" ng-model="exerciseWeight" id="exerciseWeight"></input></td>
+        <td class="col-xs-2"><input type="number" placeholder="Rep" ng-model="exerciseRep" id="exerciseRep"></input></td>
+        <td class="col-xs-3"><input placeholder="Date (XX/XX/XX HH:MM)" ng-model="exerciseTime" id="exerciseTime"></input></td>
         <td><input ng-model="exerciseId" id="exerciseId"></td>
       </tr>
     </table>
