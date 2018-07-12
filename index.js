@@ -26,7 +26,7 @@ app.get("/style.css", function(req, res) {
 });
 
 app.get("/controller.js", function(req, res) {
-	res.sendfile("controller.js");
+    res.sendfile("controller.js");
 });
 
 app.get("/ex", function(req, res){ 

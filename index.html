@@ -60,22 +60,27 @@
   <section class="workout">
     <table class="table table-condensed exerciseList">
       <tr>
-        <th>Exercise</th>
-        <th>Weight</th>
-        <th>Rep</th>
-        <th>Date</th>
+        <th class="col-xs-4 col-md-3">Exercise</th>
+        <th class="col-xs-2">Weight</th>
+        <th class="col-xs-2">Rep</th>
+        <th class="col-xs-4">Date</th>
       </tr>
       <tbody ng-repeat="key in mapped  | orderBy: 'date' ">
         <tr>
-          <th>{{key.date|date}}</th>
+          <th ng-click="key.collapsed = !key.collapsed">
+            <span class="expand-collapse-button"> {{key.collapsed ? '&nbsp;-&nbsp;' : '&nbsp;+&nbsp;' }}</span>
+            &nbsp;
+            {{key.date|date}}
+          </th>
         </tr>  
-        <tr ng-repeat="ex in key.exercises" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
+        <tr ng-repeat="ex in key.exercises" ng-class="(key.collapsed ? '' : 'collapsed')" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
           <td>{{ex.name}}</td>
           <td>{{ex.weight}}</td>
           <td>{{ex.rep}}</td>
           <td>{{ex.time.toDate().toLocaleString()}}</td>
         </tr>
       </tbody> 
+    </table> 
       <!-- <tr ng-repeat="ex in exercises | orderBy: sortDateTime : true ">
         <td>{{ex.name}}</td>
         <td>{{ex.weight}}</td>
@@ -93,7 +98,6 @@
           <td>{{va.time.toDate().toLocaleString()}}</td>
         </tr>
       </tbody> -->
-    </table>
   </section>
 
   <footer>

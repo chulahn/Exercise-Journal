@@ -54,3 +54,17 @@ footer table {
 input#exerciseId {
   display: none;
 }
+
+.collapsed {
+  display: none;
+}
+
+.expand-collapse-button {
+  font-size: 16px;
+  border-radius:2px;
+  border: 1px solid black;
+  background: #b9b9b9;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+}
