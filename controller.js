@@ -129,7 +129,7 @@ angular.module('app', [])
         $scope.editMode = !$scope.editMode;
 
         if (!$scope.editMode) {
-            $(".selected").removeClass("selected");
+            $(".edit-selected").removeClass("edit-selected");
         }
 
         if ($scope.deleteMode) {
