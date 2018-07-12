@@ -265,6 +265,4 @@ angular.module('app', [])
             console.log(data);
         });
     }
-
-    
 }]);

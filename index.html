@@ -67,13 +67,13 @@
       </tr>
       <tbody ng-repeat="key in mapped  | orderBy: 'date' ">
         <tr>
-          <th ng-click="key.collapsed = !key.collapsed">
+          <th ng-init="$last ? key.collapsed = false : key.collapsed = true" ng-click="key.collapsed = !key.collapsed">
             <span class="expand-collapse-button"> {{key.collapsed ? '&nbsp;-&nbsp;' : '&nbsp;+&nbsp;' }}</span>
             &nbsp;
             {{key.date|date}}
           </th>
         </tr>  
-        <tr ng-repeat="ex in key.exercises | orderBy: 'time'" ng-class="(key.collapsed ? '' : 'collapsed')" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
+        <tr ng-repeat="ex in key.exercises | orderBy: 'time'" ng-class="(key.collapsed ? 'collapsed' : '')" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
           <td>{{ex.name}}</td>
           <td>{{ex.weight}}</td>
           <td>{{ex.rep}}</td>
