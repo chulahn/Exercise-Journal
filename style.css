@@ -13,6 +13,11 @@ header {
   color: white;
 }
 
+#deleteButton {
+  background-color: red;
+  color: white;
+}
+
 @media only screen and (max-width: 768px) {
   #editLi {
     display: none;
