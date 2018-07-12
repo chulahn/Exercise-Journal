@@ -130,6 +130,7 @@ angular.module('app', [])
 
         if (!$scope.editMode) {
             $(".edit-selected").removeClass("edit-selected");
+            clearExerciseInputs();
         }
 
         if ($scope.deleteMode) {
@@ -146,7 +147,7 @@ angular.module('app', [])
         //when delete clicked again, remove selected red
         if (!$scope.deleteMode) {
             $(".delete-selected").removeClass("delete-selected");
-
+            clearExerciseInputs();
         }
 
         //if switching from edit, remove selected green and clear
