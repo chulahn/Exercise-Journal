@@ -73,7 +73,7 @@
             {{key.date|date}}
           </th>
         </tr>  
-        <tr ng-repeat="ex in key.exercises | orderBy: 'time'" ng-class="(key.collapsed ? 'collapsed' : '')" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
+        <tr ng-repeat="ex in key.exercises | orderBy: 'time'" ng-class="(key.collapsed ? 'date-collapsed' : '')" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
           <td>{{ex.name}}</td>
           <td>{{ex.weight}}</td>
           <td>{{ex.rep}}</td>
