@@ -338,4 +338,46 @@ angular.module('app', [])
             console.log("Error deletingExercise");
         });
     }
+
+    // Function that is called when day tableHeader is clicked.
+    // Saves in localStorage whether that day should be expanded on next visit.
+    $scope.saveCollapseToggle = function(day) {
+        var expandedDays = localStorage.getItem("expandedDays");
+        if (!expandedDays) {
+            expandedDays = []; 
+            expandedDays.push(day.date.toString()); 
+        }
+        else {
+            expandedDays = $.parseJSON(expandedDays);
+            for (var i=0; i<expandedDays.length; i++) {
+                var thisDay = expandedDays[i];
+                if (thisDay === day.date.toString()) {
+                    expandedDays.splice(i,1);
+                    localStorage.setItem("expandedDays", JSON.stringify(expandedDays));
+                    return;
+                }
+            }
+            expandedDays.push(day.date.toString());
+        }
+        localStorage.setItem("expandedDays", JSON.stringify(expandedDays));
+    }
+
+    // Function that is called in ng-init of day tableHeader to determine whether or not to expand
+    $scope.checkLastExpanded = function(day, $last) {
+        var expandedDays = localStorage.getItem("expandedDays")
+        if (expandedDays) {
+            expandedDays = $.parseJSON(expandedDays);
+            if (typeof expandedDays === "object" && expandedDays.length > 0) {
+                for (var i=0; i<expandedDays.length; i++) {
+                    if (expandedDays[i] === day.date.toString()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        if ($last) {
+            return true;
+        }
+    }
 }]);
