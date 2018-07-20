@@ -65,15 +65,15 @@
         <th class="col-xs-1">Rep</th>
         <th class="col-xs-4">Date</th>
       </tr>
-      <tbody ng-repeat="key in days  | orderBy: 'date' ">
+      <tbody ng-repeat="day in days  | orderBy: 'date' ">
         <tr>
-          <th class="date-header" ng-init="checkLastExpanded(key, $last) ? key.collapsed = false : key.collapsed = true" ng-click="key.collapsed = !key.collapsed; saveCollapseToggle(key)">
-            <span class="expand-collapse-button"> {{key.collapsed ? '&nbsp;-&nbsp;' : '&nbsp;+&nbsp;' }}</span>
+          <th class="date-header" ng-init="checkLastExpanded(day, $last) ? day.collapsed = false : day.collapsed = true" ng-click="day.collapsed = !day.collapsed; saveCollapseToggle(day)">
+            <span class="expand-collapse-button"> {{day.collapsed ? '&nbsp;-&nbsp;' : '&nbsp;+&nbsp;' }}</span>
             &nbsp;
-            {{key.date|date}}
+            {{day.date|date}}
           </th>
         </tr>  
-        <tr ng-repeat="ex in key.exercises | orderBy: 'time'" ng-class="(key.collapsed ? 'date-collapsed' : '')" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
+        <tr ng-repeat="ex in day.exercises | orderBy: 'time'" ng-class="(day.collapsed ? 'date-collapsed' : '')" exId={{ex._id}} ng-click="fillExerciseInfo(ex, $event);">
           <td>{{ex.name}}</td>
           <td>{{ex.weight}}</td>
           <td>{{ex.rep}}</td>
