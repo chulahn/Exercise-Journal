@@ -21,6 +21,11 @@ angular.module('app', [])
             console.log("Successful connect")
             console.log(data);
             $scope.exercises = data;
+
+            
+            // localStorage.setItem("localData", JSON.stringify(data));
+            // console.log($.parseJSON(localStorage.getItem("localData")));
+            // $scope.convertData($.parseJSON(localStorage.getItem("localData")));
             $scope.convertData(data);
         })
         .error(function(data) {
@@ -106,8 +111,26 @@ angular.module('app', [])
 
         })
         .error(function(data) {
+            // When connection lost, store in localStorage exercises to add
+            // So when internet is available, the resync method will be called.
             console.log("Error");
-            console.log(data);
+            alert("No connection");
+            
+            var unsyncedObject = $.parseJSON(localStorage.getItem("unsynced"));
+
+            if (!unsyncedObject) {
+                unsyncedObject = {}; 
+                unsyncedObject.exercisesToAdd = [];
+                console.log("falsy value")
+            }
+            console.log(unsyncedObject);
+            unsyncedObject.exercisesToAdd.push(newExercise);
+            console.log(unsyncedObject, " added exercise");
+
+            unsyncedObject.lastEdited = new Date();
+
+            localStorage.setItem("unsynced", JSON.stringify(unsyncedObject));
+            // console.log(data);
         });
 
     }
