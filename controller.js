@@ -262,7 +262,6 @@ angular.module('app', [])
             $($event.currentTarget).addClass("delete-selected");
         }
 
-
         if ($scope.editMode || $scope.deleteMode) {
             $scope.exerciseName = ex.name;
             $scope.exerciseWeight = ex.weight;
@@ -312,8 +311,6 @@ angular.module('app', [])
         };
         $http(postRequest).success(function(data) {
             console.log("Success " , data);
-
-            //reload
             reloadAndConvertData();
         })
         .error(function(data) {
@@ -334,8 +331,6 @@ angular.module('app', [])
         };
         $http(postRequest).success(function(data) {
             console.log("Success ", data);
-
-            //reload
             reloadAndConvertData();
         })
         .error(function(data) {
