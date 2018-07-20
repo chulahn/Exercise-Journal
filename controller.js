@@ -44,6 +44,21 @@ angular.module('app', [])
             })
     }
 
+    // Private method called after successful Add/Delete/Edit exercise
+    // Reloads and converts data again
+    reloadAndConvertData = function() {
+        $http.get("/ex")
+            .success(function(data) {
+                $scope.exercises = data;
+                $scope.convertData(data);
+            })
+            //TODO: THINK ABOUT THIS CASE
+            .error(function(data) {
+                console.log("reloadAndConvertData");
+                console.log(data);
+            });
+    }
+
     initializeData();
 
     // If there are exercises that havent been added to the database but added to localStorage, add them
@@ -97,8 +112,10 @@ angular.module('app', [])
         });
     }
 
+    // TODO: ADD COMMENTS
+    // SHOW DATA BEFORE CONVERSION AFTER CONVERSION AND AFTER MAPPED
+    // RENAME VARIABLES FOR READABILITY
     $scope.convertData = function(data) {
-
         var convertedData = {};
 
         //for each exercise
@@ -135,22 +152,26 @@ angular.module('app', [])
         }
 
         $scope.convertedData = convertedData;
+        console.log($scope.convertedData);
 
         $scope.mapped = Object.keys($scope.convertedData).map(function(key){
             return $scope.convertedData[key]
         })
-
         console.log($scope.mapped);
     }
 
+    // Called when Add Exercise button is clicked
+    // Gets Input and creates new Exercise Object
+    // Adds to database, and reloads data
+    // If no connection, add to unsyncedObject
     $scope.addExercise = function() {
         var newExercise = {};
         newExercise.name = $scope.exerciseName;
         newExercise.weight = $scope.exerciseWeight || 0;
         newExercise.rep = $scope.exerciseRep || 0;
         if ($scope.exerciseTime != null ? newExercise.time = new Date($scope.exerciseTime) : newExercise.time = new Date() )
-        // newExercise.time = new Date($scope.exerciseTime) || new Date();
-        console.log(newExercise)
+
+        console.log("Exercise to add: ", newExercise)
         $scope.exercises.push(newExercise);
         $scope.convertData($scope.exercises);
 
@@ -161,43 +182,29 @@ angular.module('app', [])
         };
 
         $http(postRequest).success(function(data) {
-            console.log("Success add");
-            console.log(data);
-            $http.get("/ex")
-                .success(function(data) {
-                    $scope.exercises = data;
-                    $scope.convertData(data);
-                })
-                .error(function(data) {
-                    console.log("Non successful:add reload");
-                    console.log(data);
-                })
-
+            console.log("Success add ", data);
+            reloadAndConvertData();
         })
         .error(function(data) {
             // When connection lost, store in localStorage exercises to add
             // So when internet is available, the resync method will be called.
-            console.log("Error");
-            alert("No connection");
-            
+            console.log("Error");            
             var unsyncedObject = $.parseJSON(localStorage.getItem("unsynced"));
 
             if (!unsyncedObject) {
                 unsyncedObject = {}; 
                 unsyncedObject.exercisesToAdd = [];
-                console.log("falsy value")
             }
-            console.log(unsyncedObject);
+            console.log("unsyncedObject: ", unsyncedObject);
+            
             unsyncedObject.exercisesToAdd.push(newExercise);
-            console.log(unsyncedObject, " added exercise");
-
             unsyncedObject.lastEdited = new Date();
-
             localStorage.setItem("unsynced", JSON.stringify(unsyncedObject));
-            // console.log(data);
+            console.log("added exercise: ", unsyncedObject);
         });
-
     }
+
+    // Debugging method.  Useless
     $scope.logData = function() {
         console.log($scope.exercises);
 
@@ -207,6 +214,9 @@ angular.module('app', [])
         console.log($.parseJSON(text));
     }
 
+    // Toggles Edit Mode.  
+    // Clicking Edit a second time turns off green header, deselects edit-selected, and clears Input
+    // Clicking Edit from delete mode, deselects delete-selected, and clearsInput
     $scope.toggleEdit = function() {
         $scope.editMode = !$scope.editMode;
 
@@ -219,31 +229,29 @@ angular.module('app', [])
             $scope.deleteMode = false;
             $(".delete-selected").removeClass("delete-selected");
             clearExerciseInputs();
-
         }
     }
 
+    // Same as Toggle Edit
     $scope.toggleDelete = function() {
         $scope.deleteMode = !$scope.deleteMode;
 
-        //when delete clicked again, remove selected red
         if (!$scope.deleteMode) {
             $(".delete-selected").removeClass("delete-selected");
             clearExerciseInputs();
         }
 
-        //if switching from edit, remove selected green and clear
         if ($scope.editMode) {
             $scope.editMode = false;
             $(".edit-selected").removeClass("edit-selected");
             clearExerciseInputs();
-
         }
-
     }
 
+    // Depending on edit or delete mode
+    // Newly clicked item will be highlighted
+    // and have information filled so $scope.addExercise() is ready to be called.
     $scope.fillExerciseInfo = function(ex, $event) {
-        
         if ($scope.editMode) {
             $(".edit-selected").removeClass("edit-selected");
             $($event.currentTarget).addClass("edit-selected");
@@ -269,16 +277,19 @@ angular.module('app', [])
         }
     }
 
+    // Private helper method for toggleEdit/toggleDelete
     function clearExerciseInputs() {
         $scope.exerciseName = null;
         $scope.exerciseWeight = null;
         $scope.exerciseRep = null;
         $scope.exerciseTime = null;
 
-        //fill hidden input
+        //clear hidden input
         $scope.exerciseId = null; 
     }
 
+    // Private helper method for $scope.editExercise/$scope.deleteExercise
+    // Creates exercise object from inputs.
     function composeExercise() {
         var exercise = {};
         exercise.name = $scope.exerciseName;
@@ -287,9 +298,10 @@ angular.module('app', [])
         exercise.time = $scope.exerciseTime;
 
         return exercise;
-
     }
 
+    // Updates exercise in database with new information
+    // TODO: INTEGRATE WITH resync()
     $scope.editExercise = function() {
         var editedExericise = composeExercise();
 
@@ -299,27 +311,19 @@ angular.module('app', [])
             data: editedExericise
         };
         $http(postRequest).success(function(data) {
-            console.log("Success");
-            console.log(data);
+            console.log("Success " , data);
 
             //reload
-            $http.get("/ex")
-                .success(function(data) {
-                    $scope.exercises = data;
-                    $scope.convertData(data);
-                })
-                .error(function(data) {
-                    console.log("Non successful:edit reload");
-                    console.log(data);
-                })
+            reloadAndConvertData();
         })
         .error(function(data) {
-            console.log("Error");
-            console.log(data);
+            // TODO: Add unsyncObject logic
+            console.log("Error editingExercise");
         });
     }
 
-
+    // Deletes exercise in database
+    // TODO: INTEGRATE WITH resync();
     $scope.deleteExercise = function() {
         var exerciseToDelete = composeExercise();
 
@@ -329,23 +333,14 @@ angular.module('app', [])
             data: exerciseToDelete
         };
         $http(postRequest).success(function(data) {
-            console.log("Success");
-            console.log(data);
+            console.log("Success ", data);
 
             //reload
-            $http.get("/ex")
-                .success(function(data) {
-                    $scope.exercises = data;
-                    $scope.convertData(data);
-                })
-                .error(function(data) {
-                    console.log("Non successful:edit reload");
-                    console.log(data);
-                })
+            reloadAndConvertData();
         })
         .error(function(data) {
-            console.log("Error");
-            console.log(data);
+            // TODO: Add unsyncObject logic
+            console.log("Error deletingExercise");
         });
     }
 }]);
