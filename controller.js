@@ -11,7 +11,7 @@ angular.module('app', [])
         {name: "Squat", weight: 135, rep: 5, time: new Date('4/8/16 18:19') },
         {name: "Squat", weight: 135, rep: 5, time: new Date('4/18/16 18:19') }
     ];
-    $scope.mapped = [];
+    $scope.days = [];
 
     $scope.editMode = false;
     $scope.deleteMode = false;
@@ -112,41 +112,37 @@ angular.module('app', [])
         });
     }
 
-    // TODO: ADD COMMENTS
-    // SHOW DATA BEFORE CONVERSION AFTER CONVERSION AND AFTER MAPPED
-    // RENAME VARIABLES FOR READABILITY
+    // Convert data so that each day is an object in the array with its own exercises array.
     $scope.convertData = function(data) {
+        // Data
+        // [ {_id: "5ae9f96bfb38c52b4626458a", name: "Squat", weight: 100, rep: 5, time: "2018-05-02T17:46:19.664Z", …} ,
+        // {_id: "5aea0fb3402dd82cd77c2418", name: "Bench", weight: 100, rep: 5, time: "2018-05-02T19:21:23.590Z", …} ]
+        // convertedData
+        // {5/2/2018 : {date: Wed May 02 2018 13:46:19 GMT-0400 (Eastern Daylight Time), exercises: Array(2), $$hashKey: "object:3", collapsed: true}}
+        // mapped
+        // [{date: Wed May 02 2018 13:46:19 GMT-0400 (Eastern Daylight Time), exercises: Array(2), $$hashKey: "object:3", collapsed: true}]
+        
         var convertedData = {};
 
-        //for each exercise
-        //get the date
-        //if Date already exists, push
-        //else create new Date
+        // For each exercise
+        // Get the date and set as Key
+        // If it doesnt exist, create new exercises array
+        // else push exercise
         for (var i=0; i<data.length; i++) {
             var currentEx = data[i];
             var currentExDate = new Date(currentEx.time);
-
             //eg. currentEx.date = "5/2/2018"
             currentEx.date = currentExDate.toLocaleDateString();
 
-            // if (convertedData[currentExDate.toLocaleDateString()] === undefined ? 
-            //     convertedData[currentExDate.toLocaleDateString()] = [currentEx] :
-            //     convertedData[currentExDate.toLocaleDateString()].push(currentEx)); 
-
-            //if key does not exist, make a key with value objData.
-            //objData has date and an array of exercise with the one exercise
             if (convertedData[currentExDate.toLocaleDateString()] === undefined) {
-                var objData = {};
-                objData.date = currentExDate;
-                objData.exercises = [];
-                objData.exercises.push(currentEx);
+                var dayData = {};
+                dayData.date = currentExDate;
+                dayData.exercises = [];
+                dayData.exercises.push(currentEx);
 
-                convertedData[currentExDate.toLocaleDateString()] = objData;
+                convertedData[currentExDate.toLocaleDateString()] = dayData;
             }
-
-            //else add the exercise to the value exercises array.
             else {
-                // console.log(convertedData[currentExDate.toLocaleDateString()])
                 convertedData[currentExDate.toLocaleDateString()].exercises.push(currentEx);
             }
         }
@@ -154,10 +150,14 @@ angular.module('app', [])
         $scope.convertedData = convertedData;
         console.log($scope.convertedData);
 
-        $scope.mapped = Object.keys($scope.convertedData).map(function(key){
+        $scope.days = Object.keys($scope.convertedData).map(function(key){
+            // Take Date Key 5/2/2018
+            // Create Array of Objects with date and exercises
+            // console.log(key)
+            // console.log($scope.convertedData[key])
             return $scope.convertedData[key]
         })
-        console.log($scope.mapped);
+        console.log($scope.days);
     }
 
     // Called when Add Exercise button is clicked

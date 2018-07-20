@@ -102,7 +102,6 @@ app.post("/update/:exId", function(req,res) {
             var workoutCollection = db.collection("workouts");
             
             var copy = req.body;
-            copy.TEST = "TESTING"
             delete copy._id;
             var o_id = new ObjectId(req.params.exId);
 
