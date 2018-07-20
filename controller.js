@@ -3,13 +3,13 @@ angular.module('app', [])
 
 .controller('dataController', ['$scope' , '$http' , function($scope, $http) {
 
+    // Default Exercises
     $scope.exercises = [
         {name: "Press", weight: 135, rep: 5, time: new Date('4/28/16 18:16') },
         {name: "Bench", weight: 135, rep: 5, time: new Date('4/28/16 18:17') },
         {name: "Squat", weight: 135, rep: 5, time: new Date('4/28/16 18:19') },
         {name: "Squat", weight: 135, rep: 5, time: new Date('4/8/16 18:19') },
         {name: "Squat", weight: 135, rep: 5, time: new Date('4/18/16 18:19') }
-
     ];
     $scope.mapped = [];
 
@@ -205,11 +205,6 @@ angular.module('app', [])
         console.log(text);
 
         console.log($.parseJSON(text));
-    }
-
-    $scope.sortDateTime = function(exercise) {
-        var dateTime = new Date(exercise.time);
-        return dateTime;
     }
 
     $scope.toggleEdit = function() {
