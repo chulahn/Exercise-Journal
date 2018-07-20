@@ -16,22 +16,86 @@ angular.module('app', [])
     $scope.editMode = false;
     $scope.deleteMode = false;
 
-    $http.get("/ex")
-        .success(function(data) {
-            console.log("Successful connect")
-            console.log(data);
-            $scope.exercises = data;
+    // Get data from database and set $scope.exercises.  Then try to resync
+    // If no connection, load localStorage
+    initializeData = function () {
+        $http.get("/ex")
+            .success(function(data) {
+                console.log("Successful connect ", data)
+                $scope.exercises = data;
+                $scope.convertData(data);
 
-            
-            // localStorage.setItem("localData", JSON.stringify(data));
-            // console.log($.parseJSON(localStorage.getItem("localData")));
-            // $scope.convertData($.parseJSON(localStorage.getItem("localData")));
-            $scope.convertData(data);
+                var unsyncedObject = $.parseJSON(localStorage.getItem("unsynced"));
+                if (unsyncedObject && unsyncedObject.exercisesToAdd) {
+                    resync(unsyncedObject);
+                }
+            })
+            .error(function(data) {
+                // Use local data :UNTESTED
+                alert("Failed initial connected: Using LocalData");
+                console.log("Non successful initial connect");
+
+                var localData = $.parseJSON(localStorage.getItem("localData"));
+                if (localData && localData.length > 0 && (typeof localData === "object")) {
+                    console.log("localData: ", localData);
+                    $scope.exercises = localData;
+                    $scope.convertData(localData);                    
+                }
+            })
+    }
+
+    initializeData();
+
+    // If there are exercises that havent been added to the database but added to localStorage, add them
+    // TODO: Also remove them
+    resync = function(unsyncedObject) {
+        for (var i=0; i<unsyncedObject.exercisesToAdd.length; i++) {
+            var ex = unsyncedObject.exercisesToAdd[i];
+            addUnsyncedExercise(ex, unsyncedObject);
+        }
+    }
+
+    // Add unsynced exercises
+    // Remove them from unsyncedObject
+    // Update localStorage with new database data.
+    // If no connection, they are still unsynced
+    addUnsyncedExercise = function(exercise, unsyncedObject) {
+        console.log("addUnsyncedExercise: ", exercise);
+        var postRequest = {
+            method: "POST",
+            url: "/ex",
+            data: exercise
+        };
+
+        $http(postRequest).success(function(data) {
+            console.log("Success addUnsyncedExercise ", data);
+            $http.get("/ex")
+                .success(function(data) {
+                    for (var i=0; i<unsyncedObject.exercisesToAdd.length; i++) {
+                        var ex = unsyncedObject.exercisesToAdd[i];
+                        if (ex == exercise) {
+                            unsyncedObject.exercisesToAdd.splice(i, 1);
+                            console.log("Removing ", unsyncedObject);
+                            alert("Removed");
+                            localStorage.setItem("unsynced", JSON.stringify(unsyncedObject));
+                        }
+                    }
+                    localStorage.setItem("localData", JSON.stringify(data));
+                    $scope.exercises = data;
+                    $scope.convertData(data);
+                })
+                .error(function(data) {
+                    console.log("Non successful:add reload");
+                    console.log(data);
+                })
+
         })
         .error(function(data) {
-            console.log("Non successful");
-            console.log(data);
-        })
+            // When connection lost, store in localStorage exercises to add
+            // So when internet is available, the resync method will be called.
+            console.log("No connection when addUnsyncedExercise");
+        });
+    }
 
     $scope.convertData = function(data) {
 
