@@ -35,7 +35,10 @@
         <button type="button" id="deleteButton" ng-click="toggleDelete()" class="navbar-toggle">
           Delete 
         </button>
-        <a class="navbar-brand" href="#">Exercise Logger</a>
+        <button type="button" id="topButton" ng-click="" class="navbar-toggle">
+          <a href="#top">Top^</a>
+        </button>
+        <a class="navbar-brand" href="#home">Exercise Logger</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
@@ -60,7 +63,7 @@
   <section class="workout">
     <table class="table table-condensed exerciseList">
       <tr>
-        <th class="col-xs-5 col-md-3">Exercise</th>
+        <th class="col-xs-5 col-md-3"><a name="home">Exercise</a></th>
         <th class="col-xs-2">Weight</th>
         <th class="col-xs-1">Rep</th>
         <th class="col-xs-4">Date</th>
@@ -81,6 +84,7 @@
         </tr>
       </tbody> 
     </table> 
+    <a name="bottom"></a>
   </section>
 
   <footer>
@@ -96,6 +100,7 @@
     <button ng-hide="editMode || deleteMode" class="btn btn-primary" id="addWorkout" ng-click="addExercise()">Add Exercise</button>
     <button ng-show="editMode" class="btn btn-success" id="editWorkout" ng-click="editExercise()">Edit Exercise</button>
     <button ng-show="deleteMode" class="btn btn-danger" id="deleteWorkout" ng-click="deleteExercise()">Delete Exercise</button>
+    <button class="btn btn-primary" id="bottomButton"><a href="#bottom">Bottom V</a></button>
     
     <!-- 
     <button class="btn btn-danger" id="clearWorkouts">Clear Workouts</button>

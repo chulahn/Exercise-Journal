@@ -18,30 +18,43 @@ header {
   color: white;
 }
 
+#topButton {
+  background-color: blue;
+  color: white;
+}
+
+#bottomButton,
+#bottomButton > a,
+#topButton > a {
+  color: white;
+}
+
 @media only screen and (max-width: 768px) {
   #editLi {
     display: none;
   }
 }
 
-.edit-nav, .edit-selected {
+.edit-nav,
+.edit-selected {
   background-color: green;
 }
 
-.delete-nav, .delete-selected {
+.delete-nav,
+.delete-selected {
   background-color: red;
 }
 
 @media only screen and (max-width: 360px) {
-    .navbar-brand {
-        padding:15px 5px;
-        font-size: 14px;
-        line-height: 28px;
-    }
+  .navbar-brand {
+    padding: 15px 5px;
+    font-size: 14px;
+    line-height: 28px;
+  }
 
-    .date-header {
-      font-size: 13px;
-    }
+  .date-header {
+    font-size: 13px;
+  }
 }
 
 .navbar-inverse {
@@ -73,7 +86,7 @@ input#exerciseId {
 
 .expand-collapse-button {
   font-size: 16px;
-  border-radius:2px;
+  border-radius: 2px;
   border: 1px solid black;
   background: #b9b9b9;
   font-weight: bold;
