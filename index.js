@@ -31,6 +31,54 @@ app.get("/controller.js", function(req, res) {
   res.sendfile("controller.js");
 });
 
+app.get("/jan14update/", function(req, res) {
+  MongoClient.connect(
+    databaseURL,
+    function(err, client) {
+      if (client) {
+        console.log("Connected to client");
+        //console.log(client);
+        var db = client.db("exercise-journal");
+
+        var workoutCollection = db.collection("workouts");
+
+        var userCollection = db.collection("users");
+
+        var firstUser = {};
+
+        firstUser.id = 0;
+        firstUser.user_name = "admin";
+        firstUser.email = "ADMIN";
+        firstUser.created = new Date();
+        firstUser.exercises = [];
+
+        var secondUser = Object.assign({}, firstUser);
+
+        secondUser.id = 1;
+        secondUser.user_name = "chulahn";
+        secondUser.email = "ahn.chul@gmail.com";
+        secondUser.created = new Date();
+
+        res.json(firstUser);
+
+        // firstUser has been altered from secondUser's calls.
+
+        // userCollection.insert(firstUser, function(err, results) {
+        //   if (err) {
+        //     console.log("Insert firstUser error");
+        //     console.log(err);
+        //     res.status(400).send(err);
+        //   } else {
+        //     console.log("Successful insert");
+        //     console.log(results);
+        //     res.send(req.body);
+        //   }
+        // });
+      }
+    }
+  );
+});
+
 // Return's all workouts for a users.
 // Called by controller initially, to load data.
 app.get("/ex", function(req, res) {
