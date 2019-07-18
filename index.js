@@ -4,7 +4,7 @@ var app = express();
 var mongo = require("mongodb");
 var MongoClient = mongo.MongoClient;
 var databaseURL =
-  "mongodb://admin:Fitadmin@ds121696.mlab.com:21696/exercise-journal";
+  "mongodb://admin:Fitadmin1@ds121696.mlab.com:21696/exercise-journal";
 var ObjectId = require("mongodb").ObjectId;
 
 var bodyParser = require("body-parser");
