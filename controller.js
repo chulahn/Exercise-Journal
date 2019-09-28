@@ -404,5 +404,28 @@ angular
           return true;
         }
       };
+
+      $scope.addUser = function() {
+
+        var user = {};
+        user.email = $scope.emailInput;
+        user.user_name = $scope.usernameInput;
+        user.password = $scope.passwordInput;
+
+        var postRequest = {
+          method: "POST",
+          url: "/register",
+          data: user
+        };
+        
+        $http(postRequest)
+          .success(function(data) {
+            console.log("Success add ", data);
+          })
+          .error(function(data) {
+            console.log("Error");
+          });
+        
+      }
     }
   ]);

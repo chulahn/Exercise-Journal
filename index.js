@@ -211,4 +211,89 @@ app.post("/delete/:exId", function(req, res) {
   );
 });
 
+app.post("/register", function(req, res) {
+  //First connect to the database,
+  //Check if email is in use.  transform to lowercase, then find match
+    //check username.  find match
+      //Get length, assign Id to newUser
+      //Add User to DB.
+  MongoClient.connect(
+    databaseURL,
+    function(err, client) {
+      if (client) {
+        console.log("---POST:Connected to client.  Register");
+
+        var db = client.db("exercise-journal");
+        var userCollection = db.collection("users");
+        console.log(req.body);
+        //if invalid email is entered, body does not send it.
+
+        var b = userCollection.find({ 
+          email: req.body.email
+        })
+        
+        var c = b.toArray(function(err, results) {
+          var emailExists = results.length > 0;
+
+          if (emailExists) { // cannot register
+            //TODO: update client and give feedback that couldnt Register
+            console.log(req.body.email , "exists");
+            res.send("Email already Exists");
+          }
+          else {
+            console.log("Checking if username in use");
+
+            var d = userCollection.find({
+              user_name: req.body.user_name
+            });
+
+            var e = d.toArray(function (err, dResults) {
+
+              var userNameExists = dResults.length > 0;
+
+              if (userNameExists) { // cannot register
+                console.log(req.body.user_name, " user_name exists");
+                res.send("Email already Exists");
+              }
+
+              else {
+                var newUser = {};
+
+                userCollection.find({}).toArray(function(err, allUsers) {
+
+                  newUser.id = allUsers.length;
+                  newUser.user_name = req.body.user_name;
+                  // TODO: Salt password
+                  newUser.password = req.body.password;
+                  newUser.email = req.body.email
+                  newUser.created = new Date();
+
+                  userCollection.insert(newUser, function(insertErr, insertResults) {
+
+                    if (insertErr) {
+                      console.log("Insert workout error");
+                      console.log(insertErr);
+                      res.status(400).send(insertErr);
+                    } else {
+                      console.log("Successful insert");
+                      console.log(insertResults);
+                      //Redirect to logged in
+                      res.send(req.body);
+                    }
+                  });
+                })
+              }
+              console.log(dResults,"dResults");
+            });
+          }
+        });
+      } else {
+        console.log("Error connecting to Database");
+        console.log(err);
+      }
+    }
+  );
+});
+
+
 app.listen(process.env.PORT || 3000);
