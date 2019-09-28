@@ -422,8 +422,11 @@ angular
           .success(function(data) {
             console.log("Success add ", data);
           })
-          .error(function(data) {
-            console.log("Error");
+          .error(function(err , code) {
+            // if (code == 401) {
+              alert(err);
+            // }
+            // console.log("Error ", err, code);
           });
         
       }

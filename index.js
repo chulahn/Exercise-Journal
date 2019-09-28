@@ -230,30 +230,26 @@ app.post("/register", function(req, res) {
 
         var b = userCollection.find({ 
           email: req.body.email
-        })
-        
-        var c = b.toArray(function(err, results) {
+        }).toArray(function(err, results) {
           var emailExists = results.length > 0;
 
           if (emailExists) { // cannot register
             //TODO: update client and give feedback that couldnt Register
             console.log(req.body.email , "exists");
-            res.send("Email already Exists");
+            res.status(401).send("Email already Exists");
           }
           else {
             console.log("Checking if username in use");
 
             var d = userCollection.find({
               user_name: req.body.user_name
-            });
-
-            var e = d.toArray(function (err, dResults) {
+            }).toArray(function (err, dResults) {
 
               var userNameExists = dResults.length > 0;
 
               if (userNameExists) { // cannot register
                 console.log(req.body.user_name, " user_name exists");
-                res.send("Email already Exists");
+                res.status(402).send("Email already Exists");
               }
 
               else {
