@@ -86,16 +86,11 @@ app.get("/ex", function(req, res) {
     databaseURL,
     function(err, client) {
       if (client) {
-        console.log("Connected to client");
-        //console.log(client);
+        console.log("app.get('/ex' : Connected to client");
+
         var db = client.db("exercise-journal");
 
-        console.log("Database");
-        //console.log(db);
-
         var workoutCollection = db.collection("workouts");
-        console.log("Collection");
-        //console.log(workoutCollection);
 
         workoutCollection.find({}).toArray(function(err, results) {
           if (results) {
@@ -117,7 +112,7 @@ app.post("/ex", function(req, res) {
     databaseURL,
     function(err, client) {
       if (client) {
-        console.log("---POST:Connected to client");
+        console.log("app.post('/ex' : Connected to client");
 
         var db = client.db("exercise-journal");
         var workoutCollection = db.collection("workouts");
@@ -148,7 +143,7 @@ app.post("/update/:exId", function(req, res) {
     databaseURL,
     function(err, client) {
       if (client) {
-        console.log("---POST:Connected to client");
+        console.log("app.post('/update/:exId' : Connected to client");
 
         var db = client.db("exercise-journal");
         var workoutCollection = db.collection("workouts");
@@ -185,7 +180,7 @@ app.post("/delete/:exId", function(req, res) {
     databaseURL,
     function(err, client) {
       if (client) {
-        console.log("---POST:Connected to client");
+        console.log("app.post('/delete/:exId' : Connected to client");
 
         var db = client.db("exercise-journal");
         var workoutCollection = db.collection("workouts");
@@ -221,7 +216,7 @@ app.post("/register", function(req, res) {
     databaseURL,
     function(err, client) {
       if (client) {
-        console.log("---POST:Connected to client.  Register");
+        console.log("app.post('/register' :  Register");
 
         var db = client.db("exercise-journal");
         var userCollection = db.collection("users");
